@@ -1,8 +1,8 @@
 package btssio.remis.gestionAdLaurent;
 
-import java.awt.EventQueue;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,9 +16,10 @@ import org.w3c.dom.*;
 public class premiereFen extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField txtNom, txtPrenom;
-    private JComboBox<String> comboCategorie;
+    private JTextField txtNom, txtNomNaissance, txtPrenom, txtDateNaissance, txtVilleNaissance, txtNationalite;
+    private JTextField txtAdresse, txtCodePostal, txtVille, txtTel1, txtTel2, txtEmail;
     private JTextArea textArea;
+    private JComboBox<String> comboGenre, comboCategorie;
     private static final String FILE_PATH = "adherents.xml";
 
     public static void main(String[] args) {
@@ -35,161 +36,91 @@ public class premiereFen extends JFrame {
     public premiereFen() {
         setTitle("Gestion des Adhérents");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 500, 400);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        
+        contentPane = new JPanel(new GridBagLayout());
+        contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
 
-        JLabel lblTitre = new JLabel("Gestion des Adhérents");
-        lblTitre.setBounds(180, 10, 200, 25);
-        contentPane.add(lblTitre);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        
+        String[] labels = {"Nom:", "Nom de naissance:", "Prénom:", "Genre:", "Date de naissance:", "Ville de naissance:", "Nationalité:", "Adresse:", "Code Postal:", "Ville:", "Téléphone 1:", "Téléphone 2:", "Email:", "Catégorie:"};
+        JComponent[] inputs = {
+            txtNom = new JTextField(),
+            txtNomNaissance = new JTextField(),
+            txtPrenom = new JTextField(),
+            comboGenre = new JComboBox<>(new String[]{"Masculin", "Féminin"}),
+            txtDateNaissance = new JTextField(),
+            txtVilleNaissance = new JTextField(),
+            txtNationalite = new JTextField(),
+            txtAdresse = new JTextField(),
+            txtCodePostal = new JTextField(),
+            txtVille = new JTextField(),
+            txtTel1 = new JTextField(),
+            txtTel2 = new JTextField(),
+            txtEmail = new JTextField(),
+            comboCategorie = new JComboBox<>()
+        };
+        
+        for (int i = 0; i < labels.length; i++) {
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            contentPane.add(new JLabel(labels[i]), gbc);
+            gbc.gridx = 1;
+            gbc.weightx = 1.0;
+            contentPane.add(inputs[i], gbc);
+        }
+        
+        gbc.gridx = 0;
+        gbc.gridy = labels.length;
+        gbc.gridwidth = 2;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        textArea = new JTextArea(5, 40);
+        textArea.setEditable(false);
+        contentPane.add(new JScrollPane(textArea), gbc);
 
-        JLabel lblNom = new JLabel("Nom:");
-        lblNom.setBounds(50, 60, 100, 20);
-        contentPane.add(lblNom);
-        
-        txtNom = new JTextField();
-        txtNom.setBounds(150, 60, 200, 20);
-        contentPane.add(txtNom);
-        
-        JLabel lblPrenom = new JLabel("Prénom:");
-        lblPrenom.setBounds(50, 100, 100, 20);
-        contentPane.add(lblPrenom);
-        
-        txtPrenom = new JTextField();
-        txtPrenom.setBounds(150, 100, 200, 20);
-        contentPane.add(txtPrenom);
-        
-        JLabel lblCategorie = new JLabel("Catégorie:");
-        lblCategorie.setBounds(50, 140, 100, 20);
-        contentPane.add(lblCategorie);
-        
-        comboCategorie = new JComboBox<>();
-        comboCategorie.setBounds(150, 140, 200, 20);
-        contentPane.add(comboCategorie);
-        chargerCategories();
-        
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton btnAjouter = new JButton("Ajouter");
-        btnAjouter.setBounds(50, 180, 120, 30);
-        contentPane.add(btnAjouter);
-        
         JButton btnModifier = new JButton("Modifier");
-        btnModifier.setBounds(180, 180, 120, 30);
-        contentPane.add(btnModifier);
-        
         JButton btnSupprimer = new JButton("Supprimer");
-        btnSupprimer.setBounds(310, 180, 120, 30);
-        contentPane.add(btnSupprimer);
+        buttonPanel.add(btnAjouter);
+        buttonPanel.add(btnModifier);
+        buttonPanel.add(btnSupprimer);
         
-        textArea = new JTextArea();
-        textArea.setBounds(50, 230, 380, 120);
-        contentPane.add(textArea);
-        afficherAdherents();
+        gbc.gridy = labels.length + 1;
+        contentPane.add(buttonPanel, gbc);
         
         btnAjouter.addActionListener(e -> {
-            ajouterAdherentXML(txtNom.getText(), txtPrenom.getText(), (String) comboCategorie.getSelectedItem());
+            ajouterAdherentXML(txtNom.getText(), txtNomNaissance.getText(), txtPrenom.getText(), (String) comboGenre.getSelectedItem(), txtDateNaissance.getText(), txtVilleNaissance.getText(), txtNationalite.getText(), txtAdresse.getText(), txtCodePostal.getText(), txtVille.getText(), txtTel1.getText(), txtTel2.getText(), txtEmail.getText(), (String) comboCategorie.getSelectedItem());
             afficherAdherents();
         });
 
-        btnModifier.addActionListener(e -> new FenetreModification());
-
-        btnSupprimer.addActionListener(e -> {
-            supprimerAdherentXML(txtNom.getText(), txtPrenom.getText());
-            afficherAdherents();
-        });
+        chargerCategories();
+        afficherAdherents();
     }
 
     private void afficherAdherents() {
         textArea.setText("");
         File file = new File(FILE_PATH);
         if (!file.exists() || file.length() == 0) {
-            System.out.println("Le fichier XML est vide ou inexistant.");
             return;
         }
 
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             NodeList nList = document.getElementsByTagName("adherent");
-
             for (int i = 0; i < nList.getLength(); i++) {
                 Element element = (Element) nList.item(i);
                 textArea.append(element.getElementsByTagName("nom").item(0).getTextContent() + " " +
-                                element.getElementsByTagName("prenom").item(0).getTextContent() + " (" +
-                                element.getElementsByTagName("categorie").item(0).getTextContent() + ")\n");
+                        element.getElementsByTagName("prenom").item(0).getTextContent() + "\n");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    private void supprimerAdherentXML(String nom, String prenom) {
-        try {
-            File file = new File(FILE_PATH);
-            if (!file.exists()) return;
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(file);
-
-            NodeList adherents = document.getElementsByTagName("adherent");
-            for (int i = 0; i < adherents.getLength(); i++) {
-                Element adherent = (Element) adherents.item(i);
-                String nomAdh = adherent.getElementsByTagName("nom").item(0).getTextContent();
-                String prenomAdh = adherent.getElementsByTagName("prenom").item(0).getTextContent();
-                
-                if (nomAdh.equals(nom) && prenomAdh.equals(prenom)) {
-                    adherent.getParentNode().removeChild(adherent);
-                    break;
-                }
-            }
-
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.transform(new DOMSource(document), new StreamResult(new FileWriter(FILE_PATH)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void ajouterAdherentXML(String nom, String prenom, String categorie) {
-        try {
-            File file = new File(FILE_PATH);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document;
-
-            if (file.exists() && file.length() > 0) {
-                document = builder.parse(file);
-            } else {
-                document = builder.newDocument();
-                Element root = document.createElement("adherents");
-                document.appendChild(root);
-            }
-
-            Element root = document.getDocumentElement();
-            Element adherent = document.createElement("adherent");
-
-            adherent.appendChild(createElement(document, "nom", nom));
-            adherent.appendChild(createElement(document, "prenom", prenom));
-            adherent.appendChild(createElement(document, "categorie", categorie));
-            root.appendChild(adherent);
-
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.transform(new DOMSource(document), new StreamResult(new FileWriter(FILE_PATH)));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private Element createElement(Document doc, String tagName, String textContent) {
-        Element element = doc.createElement(tagName);
-        element.appendChild(doc.createTextNode(textContent));
-        return element;
     }
 
     private void chargerCategories() {
@@ -200,14 +131,17 @@ public class premiereFen extends JFrame {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(file);
-            document.getDocumentElement().normalize();
-            
             NodeList nodeList = document.getElementsByTagName("categorie");
+
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    comboCategorie.addItem(element.getTextContent());
+                    NodeList nomList = element.getElementsByTagName("nom");
+                    if (nomList.getLength() > 0) {
+                        String nomCategorie = nomList.item(0).getTextContent();
+                        comboCategorie.addItem(nomCategorie);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -215,11 +149,47 @@ public class premiereFen extends JFrame {
         }
     }
 
-    class FenetreModification extends JFrame {
-        public FenetreModification() {
-            setTitle("Modifier un Adhérent");
-            setBounds(200, 200, 400, 300);
-            setVisible(true);
+    
+    private void ajouterAdherentXML(String nom, String nomNaissance, String prenom, String genre, String dateNaissance, String villeNaissance, String nationalite, String adresse, String codeP, String ville, String telUn, String telDeux, String email, String categorie) {
+        try {
+            File file = new File(FILE_PATH);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = file.exists() ? builder.parse(file) : builder.newDocument();
+            Element root = document.getDocumentElement();
+            if (root == null) {
+                root = document.createElement("adherents");
+                document.appendChild(root);
+            }
+
+            Element adherent = document.createElement("adherent");
+            adherent.appendChild(createElement(document, "nom", nom));
+            adherent.appendChild(createElement(document, "nomNaissance", nomNaissance));
+            adherent.appendChild(createElement(document, "prenom", prenom));
+            adherent.appendChild(createElement(document, "genre", genre));
+            adherent.appendChild(createElement(document, "dateNaissance", dateNaissance));
+            adherent.appendChild(createElement(document, "villeNaissance", villeNaissance));
+            adherent.appendChild(createElement(document, "nationalite", nationalite));
+            adherent.appendChild(createElement(document, "adresse", adresse));
+            adherent.appendChild(createElement(document, "codeP", codeP));
+            adherent.appendChild(createElement(document, "ville", ville));
+            adherent.appendChild(createElement(document, "telUn", telUn));
+            adherent.appendChild(createElement(document, "telDeux", telDeux));
+            adherent.appendChild(createElement(document, "email", email));
+            adherent.appendChild(createElement(document, "categorie", categorie));
+            root.appendChild(adherent);
+
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "no");
+            transformer.transform(new DOMSource(document), new StreamResult(new FileWriter(FILE_PATH)));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+    
+    private Element createElement(Document doc, String tagName, String textContent) {
+        Element element = doc.createElement(tagName);
+        element.appendChild(doc.createTextNode(textContent));
+        return element;
     }
 }

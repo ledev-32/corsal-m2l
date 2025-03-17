@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<adherents>
-            
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><adherents>
+         
+    
     
     <adherent>
                         
@@ -8,14 +8,47 @@
         <nom>SALARD</nom>
                         
         
+        <nomNaissance/>
+                        
+        
         <prenom>Rémi</prenom>
                         
         
+        <genre>Masculin</genre>
+                        
+        
+        <dateNaissance>16/08/2005</dateNaissance>
+                        
+        
+        <villeNaissance>Toulouse</villeNaissance>
+                        
+        
+        <nationalite>Français</nationalite>
+                        
+        
+        <adresse>969 85</adresse>
+                        
+        
+        <codeP>32600</codeP>
+                        
+        
+        <ville>Seysses</ville>
+                        
+        
+        <telUn>06 06 06 06 06</telUn>
+                        
+        
+        <telDeux/>
+                        
+        
+        <email>remi.example@gmail.com</email>
+                        
+        
         <categorie>
-            Benjamins
-			M13
-            2010
-			2011
+            Poussins
+			M9
+            2014
+			2015
         </categorie>
                     
     
@@ -24,27 +57,50 @@
     
     <adherent>
                 
-        <nom>SLALALALALA</nom>
+        <nom>diiosijodvjiosdv</nom>
                 
-        <prenom>Rémiiezfijozgîhozojifezojifzhiogrheguoeguo</prenom>
+        <nomNaissance>nioonvisdvniovs</nomNaissance>
                 
-        <categorie>
-            Poussins
-			M9
-            2014
-			2015
-        </categorie>
+        <prenom>jidoioioisv</prenom>
+                
+        <genre>Masculin</genre>
+                
+        <dateNaissance>cjifjiosjiosdoji</dateNaissance>
+                
+        <villeNaissance>,iodoj^siofjio</villeNaissance>
+                
+        <nationalite>huiuuiiuui</nationalite>
+                
+        <adresse>huiuihuiii</adresse>
+                
+        <codeP>hiibhuiibuibu</codeP>
+                
+        <ville>iubbuubibuib</ville>
+                
+        <telUn>uibiubiuibubui</telUn>
+                
+        <telDeux>buibuiibubiuibuibu</telDeux>
+                
+        <email>buibuibuibuibuiibubui</email>
+                
+        <categorie>Benjamins</categorie>
             
     </adherent>
     
     <adherent>
-        <nom>SLALALALALA</nom>
-        <prenom>Rémiiezfijozgîhozojifezojifzhiogrheguoeguo</prenom>
-        <categorie>
-            Benjamins
-			M13
-            2010
-			2011
-        </categorie>
+        <nom>diiosijodvjiosdv</nom>
+        <nomNaissance>nioonvisdvniovs</nomNaissance>
+        <prenom>jidoioioisv</prenom>
+        <genre>Masculin</genre>
+        <dateNaissance>cjifjiosjiosdoji</dateNaissance>
+        <villeNaissance>,iodoj^siofjio</villeNaissance>
+        <nationalite>huiuufsdfsfsdf</nationalite>
+        <adresse>huiuihuiii</adresse>
+        <codeP>hiibhuiibuibu</codeP>
+        <ville>iubbuubibuib</ville>
+        <telUn>uibiubiuibubui</telUn>
+        <telDeux>buibuiibubiuibuibu</telDeux>
+        <email>buibuibuibuibuiibubui</email>
+        <categorie>Benjamins</categorie>
     </adherent>
-</adherents>
+<adherent><nom>pjpjgipjip</nom><nomNaissance>ppjipsjopsjop</nomNaissance><prenom/><genre>Féminin</genre><dateNaissance/><villeNaissance/><nationalite/><adresse/><codeP/><ville/><telUn/><telDeux/><email/><categorie>Minimes</categorie></adherent><adherent><nom>pjpjgipjip</nom><nomNaissance>ppjipsjopsjop</nomNaissance><prenom/><genre>Féminin</genre><dateNaissance/><villeNaissance/><nationalite/><adresse/><codeP/><ville/><telUn/><telDeux/><email/><categorie>Minimes</categorie></adherent></adherents>
